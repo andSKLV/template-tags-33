@@ -10,6 +10,8 @@ const formButton = document.querySelector('.form__submit');
 const formInput = document.querySelector('.form__input');
 const itemTemplate = document.querySelector('.item_template');
 
+let editing = null;
+
 function main() {
 	items.forEach((element) => {
 		renderItem(element);
@@ -37,6 +39,19 @@ function renderItem(text) {
 function setListeners(element) {
 	element.querySelector('.delete').addEventListener('click', handleDelete);
 	element.querySelector('.duplicate').addEventListener('click', handleDuplicate);
+	element.querySelector('.edit').addEventListener('click', handleEdit);
+}
+
+function handleEdit(event) {
+	editing = event.target.closest('.list__item');
+
+	const text = editing.querySelector('.item__text').textContent;
+
+	formInput.value = text;
+	formButton.value = "Изменить";
+
+	formButton.removeEventListener('click', handleSubmit);
+	formButton.addEventListener('click', handleEditConfirm);
 }
 
 function handleDelete(event) {
@@ -48,6 +63,17 @@ function handleDuplicate(event) {
 	renderItem(text);
 }
 
+function handleEditConfirm() {
+	editing.querySelector('.item__text').textContent = formInput.value;
+
+	formInput.value = "";
+	formButton.value = "Добавить";
+
+	formButton.removeEventListener('click', handleEditConfirm);
+	formButton.addEventListener('click', handleSubmit);
+
+	editing = null;
+}
 
 function handleSubmit() {
 	//1. взять значение из инпута
