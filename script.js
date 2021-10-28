@@ -36,10 +36,16 @@ function renderItem(text) {
 
 function setListeners(element) {
 	element.querySelector('.delete').addEventListener('click', handleDelete);
+	element.querySelector('.duplicate').addEventListener('click', handleDuplicate);
 }
 
 function handleDelete(event) {
 	event.target.closest('.list__item').remove();
+}
+
+function handleDuplicate(event) {
+	const text = event.target.closest('.list__item').querySelector('.item__text').textContent;
+	renderItem(text);
 }
 
 
