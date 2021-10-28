@@ -26,10 +26,22 @@ function renderItem(text) {
 	//2. Заменять в разметке текст
 	htmlElement.querySelector('.item__text').innerText = text;
 
+	//2.5 Навесить события
+	setListeners(htmlElement);
+
 	//3. Вставлять разметку в наш dom
 	list.appendChild(htmlElement);
 
 }
+
+function setListeners(element) {
+	element.querySelector('.delete').addEventListener('click', handleDelete);
+}
+
+function handleDelete(event) {
+	event.target.closest('.list__item').remove();
+}
+
 
 function handleSubmit() {
 	//1. взять значение из инпута
